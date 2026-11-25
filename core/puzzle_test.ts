@@ -11,6 +11,7 @@ Deno.test("walking onto floor moves the player and counts a move", () => {
   const after = move(corridor, "right");
   assertEquals(after.player, { x: 2, y: 1 });
   assertEquals(after.moves, 1);
+  assertEquals(after.pushes, 0);
 });
 
 Deno.test("walking into a wall returns the very same puzzle", () => {
@@ -21,6 +22,7 @@ Deno.test("walking into a crate pushes it one tile", () => {
   const after = move(move(corridor, "right"), "right");
   assertEquals(after.player, { x: 3, y: 1 });
   assertEquals(after.crates, [{ x: 4, y: 1 }]);
+  assertEquals(after.pushes, 1);
 });
 
 Deno.test("a crate cannot be pushed into a wall", () => {
@@ -32,6 +34,7 @@ Deno.test("moving leaves the earlier puzzle untouched", () => {
   move(corridor, "right");
   assertEquals(corridor.player, { x: 1, y: 1 });
   assertEquals(corridor.moves, 0);
+  assertEquals(corridor.pushes, 0);
 });
 
 Deno.test("a puzzle is solved when every crate sits on a goal", () => {
